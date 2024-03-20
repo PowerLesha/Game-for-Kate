@@ -9,6 +9,7 @@ const Kate: React.FC = () => {
   const health = useSelector(selectHealth);
   const screenWidth = 1100; // Adjust these values as needed
   const screenHeight = 600; // Adjust these values as needed
+  const step = 10; // Adjust the movement step as needed
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -16,18 +17,17 @@ const Kate: React.FC = () => {
       if (!kate) return;
 
       const { top, left } = kate.getBoundingClientRect();
-      const step = 10;
 
       switch (event.key) {
         case "ArrowUp":
-          if (top > step) kate.style.top = `${top - step}px`;
+          if (top > step) kate.style.top = `${top - step * 2}px`;
           break;
         case "ArrowDown":
           if (top < screenHeight - kate.clientHeight - step)
             kate.style.top = `${top + step}px`;
           break;
         case "ArrowLeft":
-          if (left > step) kate.style.left = `${left - step}px`;
+          if (left > step) kate.style.left = `${left - step * 2}px`;
           break;
         case "ArrowRight":
           if (left < screenWidth - kate.clientWidth - step)

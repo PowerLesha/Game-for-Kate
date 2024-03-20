@@ -10,11 +10,11 @@ const Enemy: React.FC<EnemyProps> = ({ screenWidth, screenHeight }) => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      // Generate random position within screen dimensions
-      const top = Math.floor(Math.random() * (screenHeight - 50));
-      const left = Math.floor(Math.random() * (screenWidth - 50));
+      const top = Math.floor(Math.random() * (screenHeight - 5));
+      const left = 400;
+      // const left = Math.floor(Math.random() * (screenWidth - 5));
       setPosition({ top, left });
-    }, 1000); // Adjust interval as needed
+    }, 1000); // Update every 500 milliseconds (0.5 seconds)
 
     return () => clearInterval(interval);
   }, [screenHeight, screenWidth]);
