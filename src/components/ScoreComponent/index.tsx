@@ -9,7 +9,7 @@ const ScoreComponent: React.FC = () => {
   return (
     <div className="score">
       <h2>Health: {health}</h2>
-      <h2>Moral Health: {moralHealth}</h2>
+      <h2>Mental Health: {moralHealth}</h2>
     </div>
   );
 };

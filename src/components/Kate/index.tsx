@@ -8,16 +8,17 @@ import {
   selectHealth,
 } from "../../store/gameSlice";
 import Enemy from "../Enemy";
-import Marshall from "../Marshall";
+import Treats from "../Treats";
 
 const Kate: React.FC = () => {
   const dispatch = useDispatch();
   const kateRef = useRef<HTMLDivElement>(null);
   const health = useSelector(selectHealth);
-  const screenWidth = 1100; // Adjust these values as needed
-  const screenHeight = 600; // Adjust these values as needed
-  const step = 10; // Adjust the movement step as needed
+  const screenWidth = 1100;
+  const screenHeight = 600;
+  const step = 10;
   const [marshallVisible, setMarshallVisible] = useState(true);
+  const [cakeVissible, setCakeVissible] = useState(true);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -64,6 +65,23 @@ const Kate: React.FC = () => {
         }
       });
 
+      const brownie = document.getElementById("brownie");
+      if (brownie && cakeVissible) {
+        const brownieRect = brownie.getBoundingClientRect();
+        if (
+          kateRect.top < brownieRect.bottom &&
+          kateRect.bottom > brownieRect.top &&
+          kateRect.left < brownieRect.right &&
+          kateRect.right > brownieRect.left
+        ) {
+          dispatch(incrementHealth());
+          setCakeVissible(false);
+          setTimeout(() => {
+            setCakeVissible(true);
+          }, 30000); // 30 seconds
+        }
+      }
+
       const marshall = document.getElementById("marshall");
       if (marshall && marshallVisible) {
         const marshallRect = marshall.getBoundingClientRect();
@@ -87,7 +105,7 @@ const Kate: React.FC = () => {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [dispatch, screenHeight, screenWidth, marshallVisible]);
+  }, [dispatch, screenHeight, screenWidth, marshallVisible, cakeVissible]);
 
   const renderEnemies = () => {
     const enemies = [];
@@ -102,10 +120,11 @@ const Kate: React.FC = () => {
   return (
     <>
       <div id="kate" ref={kateRef} className="kate"></div>
-      <Marshall
+      <Treats
         screenWidth={screenWidth}
         screenHeight={screenHeight}
-        isVisible={marshallVisible}
+        marshallVissible={marshallVisible}
+        cakeVissible={cakeVissible}
       />
       {renderEnemies()}
     </>
