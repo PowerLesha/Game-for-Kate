@@ -1,8 +1,6 @@
-// In App.tsx
-
 import React from "react";
 import { Provider } from "react-redux";
-import { store } from "./store/index"; // Correct import path
+import { store } from "./store/index";
 import ScoreComponent from "./components/ScoreComponent";
 import Kate from "./components/Kate/index";
 
