@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import marshallImage from "../../assets/Marshall.png";
-import brownie from "../../assets/brownie.png";
+import cappucchino from "../../assets/cappucchino.png";
 
 const Marshall: React.FC<{
   screenWidth: number;
@@ -46,9 +46,9 @@ const Marshall: React.FC<{
       ) : null}
       {cakeVissible ? (
         <img
-          id="brownie"
-          src={brownie}
-          alt="brownie"
+          id="cappucchino"
+          src={cappucchino}
+          alt="cappucchino"
           style={{
             position: "absolute",
             width: "50px",

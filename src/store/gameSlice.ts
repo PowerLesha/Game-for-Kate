@@ -16,13 +16,13 @@ const gameSlice = createSlice({
   initialState,
   reducers: {
     incrementHealth(state) {
-      state.health += 5; // Increment health by 5 when find something like a treat
+      state.health = 100; // Increment health by 5 when find something like a treat
     },
     decrementHealth(state) {
       state.health -= 5; // Decrement health by 5 when touched by an enemy
     },
     incrementMoralHealth(state) {
-      state.moralHealth += 5;
+      state.moralHealth = 100;
     },
     decrementMoralHealth(state) {
       state.moralHealth -= 5;

@@ -40,6 +40,20 @@ const Enemy: React.FC<EnemyProps> = ({ screenWidth, screenHeight }) => {
           left: `${position2.left2}px`,
         }}
       />
+      <div
+        className="enemy1"
+        style={{
+          top: `${position.top1 * 0.9}px`,
+          left: `${position.left1 + 350}px`,
+        }}
+      />
+      <div
+        className="enemy2"
+        style={{
+          top: `${position2.top2 * 0.9}px`,
+          left: `${position2.left2 + 350}px`,
+        }}
+      />
     </>
   );
 };

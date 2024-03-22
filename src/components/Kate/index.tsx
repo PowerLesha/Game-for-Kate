@@ -6,6 +6,7 @@ import {
   incrementHealth,
   incrementMoralHealth,
   selectHealth,
+  selectMoralHealth,
 } from "../../store/gameSlice";
 import Enemy from "../Enemy";
 import Treats from "../Treats";
@@ -13,20 +14,53 @@ import Treats from "../Treats";
 const Kate: React.FC = () => {
   const dispatch = useDispatch();
   const kateRef = useRef<HTMLDivElement>(null);
+  const firstRender = useRef(true); // useRef to track first render
   const health = useSelector(selectHealth);
-  const screenWidth = 1100;
+  const mentalHealth = useSelector(selectMoralHealth);
+  const screenWidth = 1400;
   const screenHeight = 600;
   const step = 10;
   const [marshallVisible, setMarshallVisible] = useState(true);
   const [cakeVissible, setCakeVissible] = useState(true);
+  const [gameOver, setGameOver] = useState(false);
+
+  useEffect(() => {
+    if (health <= 0 || mentalHealth <= 0) {
+      setGameOver(true);
+      // Additional cleanup or game over logic can be added here
+    }
+  }, [health, mentalHealth]);
+
+  useEffect(() => {
+    if (gameOver) {
+      // Handle game over logic here, such as showing a game over message, resetting the game, etc.
+    }
+  }, [gameOver]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
+      if (gameOver) return; // Prevent any actions when the game is over
+
       const kate = kateRef.current;
       if (!kate) return;
 
-      const { top, left } = kate.getBoundingClientRect();
+      const { top, left, bottom, right } = kate.getBoundingClientRect();
 
+      // Define the boundaries of the restricted area
+      const restrictedAreaTop = 250;
+      const restrictedAreaLeft = 230;
+
+      // Check if Kate's current position is within or near the restricted area
+      const isNearRestrictedArea =
+        top < restrictedAreaTop && left < restrictedAreaLeft;
+
+      // Prevent Kate from moving into the restricted area
+      if (isNearRestrictedArea) {
+        if (event.key === "ArrowUp" && top < restrictedAreaTop) return;
+        if (event.key === "ArrowLeft" && left < restrictedAreaLeft) return;
+      }
+
+      // Move Kate within the game boundaries
       switch (event.key) {
         case "ArrowUp":
           if (top > step) kate.style.top = `${top - step * 2}px`;
@@ -65,14 +99,14 @@ const Kate: React.FC = () => {
         }
       });
 
-      const brownie = document.getElementById("brownie");
-      if (brownie && cakeVissible) {
-        const brownieRect = brownie.getBoundingClientRect();
+      const cappucchino = document.getElementById("cappucchino");
+      if (cappucchino && cakeVissible) {
+        const cappucchinoRect = cappucchino.getBoundingClientRect();
         if (
-          kateRect.top < brownieRect.bottom &&
-          kateRect.bottom > brownieRect.top &&
-          kateRect.left < brownieRect.right &&
-          kateRect.right > brownieRect.left
+          kateRect.top < cappucchinoRect.bottom &&
+          kateRect.bottom > cappucchinoRect.top &&
+          kateRect.left < cappucchinoRect.right &&
+          kateRect.right > cappucchinoRect.left
         ) {
           dispatch(incrementHealth());
           setCakeVissible(false);
@@ -102,10 +136,29 @@ const Kate: React.FC = () => {
 
     window.addEventListener("keydown", handleKeyDown);
 
+    // Cleanup event listener
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [dispatch, screenHeight, screenWidth, marshallVisible, cakeVissible]);
+  }, [
+    dispatch,
+    screenHeight,
+    screenWidth,
+    marshallVisible,
+    cakeVissible,
+    gameOver,
+  ]);
+
+  // Initialize Kate's position only on the first render
+  useEffect(() => {
+    if (firstRender.current) {
+      const kate = kateRef.current;
+      if (kate) {
+        kate.style.top = `${screenHeight - 300}px`; // Adjust the value as needed
+      }
+      firstRender.current = false;
+    }
+  }, []);
 
   const renderEnemies = () => {
     const enemies = [];
@@ -119,14 +172,20 @@ const Kate: React.FC = () => {
 
   return (
     <>
-      <div id="kate" ref={kateRef} className="kate"></div>
-      <Treats
-        screenWidth={screenWidth}
-        screenHeight={screenHeight}
-        marshallVissible={marshallVisible}
-        cakeVissible={cakeVissible}
-      />
-      {renderEnemies()}
+      {gameOver ? (
+        <div>Game Over</div>
+      ) : (
+        <>
+          <div id="kate" ref={kateRef} className="kate"></div>
+          <Treats
+            screenWidth={screenWidth}
+            screenHeight={screenHeight}
+            marshallVissible={marshallVisible}
+            cakeVissible={cakeVissible}
+          />
+          {renderEnemies()}
+        </>
+      )}
     </>
   );
 };

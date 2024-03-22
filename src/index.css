@@ -1,6 +1,16 @@
 body {
   max-width: 1550px;
   max-height: 1000px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+.app-container {
+  display: flex;
+  height: 250px;
+}
+
+.info-container {
+  border: 2px solid black; /* Add border to the info container */
+  padding: 10px;
 }
 
 .kate {
@@ -12,12 +22,21 @@ body {
 }
 
 .score {
+  font-size: small;
   display: flex;
   justify-content: center;
   margin-top: -40px;
   width: 200px;
   height: 100px;
   flex-direction: column;
+}
+.arrow-icons {
+  margin-left: 30px;
+  margin-bottom: 30px;
+  font-size: 20px;
+}
+.arrow-icons span {
+  margin-right: 10px;
 }
 .score h2 {
   margin-bottom: -20px;
@@ -38,4 +57,50 @@ body {
   background-size: cover;
   z-index: 2;
   position: absolute;
+}
+.game-info {
+  font-size: small;
+  width: 200px;
+}
+.game-info button {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  margin-left: 20px;
+}
+
+.modal {
+  display: flex;
+  position: absolute;
+  margin-top: -200px;
+  z-index: 999;
+  left: 0;
+  top: 0;
+
+  width: 100%;
+  height: 150%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 20% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  height: 300px;
+  font-size: 18px;
+  width: 60%;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }
