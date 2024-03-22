@@ -23,7 +23,10 @@ const Kate: React.FC = () => {
   const [marshallVisible, setMarshallVisible] = useState(true);
   const [cakeVissible, setCakeVissible] = useState(true);
   const [gameOver, setGameOver] = useState(false);
-
+  const [initialKatePosition, setInitialKatePosition] = useState({
+    top: screenHeight - 300,
+    left: 0,
+  });
   useEffect(() => {
     if (health <= 0 || mentalHealth <= 0) {
       setGameOver(true);
@@ -148,17 +151,23 @@ const Kate: React.FC = () => {
     cakeVissible,
     gameOver,
   ]);
-
-  // Initialize Kate's position only on the first render
+  const restartGame = () => {
+    setGameOver(false);
+    dispatch(incrementHealth());
+    dispatch(incrementMoralHealth());
+    // Reset Kate's position to initial position
+    setInitialKatePosition({ top: screenHeight - 300, left: 0 });
+  };
   useEffect(() => {
-    if (firstRender.current) {
+    if (firstRender.current || !gameOver) {
       const kate = kateRef.current;
       if (kate) {
-        kate.style.top = `${screenHeight - 300}px`; // Adjust the value as needed
+        kate.style.top = `${initialKatePosition.top}px`;
+        kate.style.left = `${initialKatePosition.left}px`;
       }
       firstRender.current = false;
     }
-  }, []);
+  }, [initialKatePosition]);
 
   const renderEnemies = () => {
     const enemies = [];
@@ -173,7 +182,24 @@ const Kate: React.FC = () => {
   return (
     <>
       {gameOver ? (
-        <div>Game Over</div>
+        <>
+          <div className="blood-container">
+            <div className="blood-text">
+              <span>G</span>
+              <span>a</span>
+              <span>m</span>
+              <span>e</span>
+              <span>&nbsp;</span>
+              <span>O</span>
+              <span>v</span>
+              <span>e</span>
+              <span>r</span>
+            </div>
+          </div>
+          <button className="restart-button" onClick={restartGame}>
+            Restart Game
+          </button>
+        </>
       ) : (
         <>
           <div id="kate" ref={kateRef} className="kate"></div>

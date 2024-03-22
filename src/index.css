@@ -67,6 +67,63 @@ body {
   margin-left: 20px;
 }
 
+.blood-container {
+  position: relative;
+  overflow: hidden;
+  margin-top: -200px;
+  width: 200px; /* Adjust width as needed */
+  height: 300px; /* Adjust height as needed */
+}
+
+.blood-text {
+  font-size: 34px; /* Adjust font size as needed */
+}
+
+.blood-text span {
+  display: inline-block;
+  color: red; /* Hide the original text */
+  animation: bloodFall 4s linear infinite;
+}
+
+@keyframes bloodFall {
+  0% {
+    transform: translateY(0%);
+  }
+  100% {
+    transform: translateY(400%);
+  }
+}
+
+.restart-button {
+  position: absolute;
+  margin-left: 610px;
+  margin-top: 370px;
+  height: 50px;
+  cursor: pointer;
+  padding: 15px 40px 15px 40px;
+  border-radius: 10px;
+  border-style: double;
+  font-weight: 600;
+  background-image: linear-gradient(
+    rgb(54, 53, 53),
+    rgb(0, 0, 0),
+    rgb(54, 54, 54)
+  );
+  color: rgb(164, 164, 162);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  border-color: rgb(0, 0, 0);
+  transition: 400ms;
+}
+
+.restart-button:hover {
+  transition: 400ms;
+  border-style: double;
+  border-color: rgb(208, 207, 207);
+  color: rgb(219, 216, 216);
+  font-size: 16px;
+  text-shadow: 1px 10px 5px rgb(61, 61, 61);
+}
+
 .modal {
   display: flex;
   position: absolute;
