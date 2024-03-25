@@ -4,14 +4,18 @@ import {
   decrementHealth,
   decrementMoralHealth,
   incrementHealth,
+  incrementMoney,
   incrementMoralHealth,
+  resetMoney,
   selectHealth,
+  selectMoney,
   selectMoralHealth,
 } from "../../store/gameSlice";
 import Enemy from "../Enemy";
 import Treats from "../Treats";
+import Money from "../Money";
 import GameOver from "../GameOver/index";
-import { resetLevels, showLevel } from "../../store/levelSlice";
+import { completeLevel, resetLevels, showLevel } from "../../store/levelSlice";
 import aeroplane from "../../assets/aeroplane.png";
 const Kate: React.FC = () => {
   const dispatch = useDispatch();
@@ -20,11 +24,13 @@ const Kate: React.FC = () => {
   const health = useSelector(selectHealth);
   const currentLevel = useSelector(showLevel);
   const mentalHealth = useSelector(selectMoralHealth);
+  const kateMoney = useSelector(selectMoney);
   const screenWidth = 1400;
   const screenHeight = 600;
   const step = 10;
   const [marshallVisible, setMarshallVisible] = useState(true);
   const [cakeVissible, setCakeVissible] = useState(true);
+  const [moneyVissible, setMoneyVissible] = useState(true);
   const [gameOver, setGameOver] = useState(false);
   const [initialKatePosition, setInitialKatePosition] = useState({
     top: screenHeight - 300,
@@ -138,6 +144,43 @@ const Kate: React.FC = () => {
           }, 30000); // 30 seconds
         }
       }
+
+      const money = document.getElementById("money");
+      if (kateMoney && kateMoney >= 1000) {
+        setMoneyVissible(false);
+        return;
+      }
+      if (money && moneyVissible && kateMoney < 1000) {
+        const moneyRect = money.getBoundingClientRect();
+        if (
+          kateRect.top < moneyRect.bottom &&
+          kateRect.bottom > moneyRect.top &&
+          kateRect.left < moneyRect.right &&
+          kateRect.right > moneyRect.left
+        ) {
+          dispatch(incrementMoney());
+          setMoneyVissible(false);
+          if (kateMoney < 1000) {
+            setTimeout(() => {
+              setMoneyVissible(true);
+            }, 3000); // 3 seconds
+          } else setMoneyVissible(false);
+        }
+      }
+
+      const aeroplane = document.getElementById("plane");
+      if (aeroplane) {
+        const aeroplaneRect = aeroplane.getBoundingClientRect();
+        if (
+          kateRect.top < aeroplaneRect.bottom &&
+          kateRect.bottom > aeroplaneRect.top &&
+          kateRect.left < aeroplaneRect.right &&
+          kateRect.right > aeroplaneRect.left
+        ) {
+          // Dispatch action to indicate transition to level 2
+          dispatch(completeLevel(2));
+        }
+      }
     };
 
     window.addEventListener("keydown", handleKeyDown);
@@ -153,14 +196,17 @@ const Kate: React.FC = () => {
     marshallVisible,
     cakeVissible,
     gameOver,
+    kateMoney,
     health,
     mentalHealth,
+    moneyVissible,
   ]);
   const restartGame = () => {
     setGameOver(false);
     dispatch(incrementHealth());
     dispatch(incrementMoralHealth());
     dispatch(resetLevels());
+    dispatch(resetMoney());
     // Reset Kate's position to initial position
     setInitialKatePosition({ top: screenHeight - 300, left: 0 });
   };
@@ -190,20 +236,25 @@ const Kate: React.FC = () => {
       {gameOver ? (
         <GameOver restartGame={restartGame} />
       ) : (
-        <>
+        <div>
           <h1 className="show-level">LEVEL {currentLevel}</h1>
-          <div id="kate" ref={kateRef} className="kate"></div>
-          <Treats
-            screenWidth={screenWidth}
-            screenHeight={screenHeight}
-            marshallVissible={marshallVisible}
-            cakeVissible={cakeVissible}
-          />
-          {renderEnemies()}
-          <div className="aeroplane">
-            <img src={aeroplane} />
-          </div>
-        </>
+
+          {currentLevel === 1 && (
+            <>
+              <div id="kate" ref={kateRef} className="kate"></div>
+              <Treats
+                screenWidth={screenWidth}
+                screenHeight={screenHeight}
+                marshallVissible={marshallVisible}
+                cakeVissible={cakeVissible}
+              />
+              <Money moneyVissible={moneyVissible} />
+              {renderEnemies()}
+
+              <div className="aeroplane" id="plane"></div>
+            </>
+          )}
+        </div>
       )}
     </div>
   );

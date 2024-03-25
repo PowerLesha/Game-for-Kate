@@ -4,11 +4,13 @@ import { RootState } from "./index";
 interface GameState {
   moralHealth: number;
   health: number;
+  money: number;
 }
 
 const initialState: GameState = {
   moralHealth: 100,
   health: 100,
+  money: 0,
 };
 
 const gameSlice = createSlice({
@@ -16,7 +18,7 @@ const gameSlice = createSlice({
   initialState,
   reducers: {
     incrementHealth(state) {
-      state.health = 100; // Increment health by 5 when find something like a treat
+      state.health = 100; // Increment health to full when find something like a treat
     },
     decrementHealth(state) {
       state.health -= 5; // Decrement health by 5 when touched by an enemy
@@ -27,6 +29,12 @@ const gameSlice = createSlice({
     decrementMoralHealth(state) {
       state.moralHealth -= 5;
     },
+    incrementMoney(state) {
+      state.money += 200;
+    },
+    resetMoney(state) {
+      state.money = 0;
+    },
   },
 });
 
@@ -35,9 +43,12 @@ export const {
   decrementHealth,
   incrementMoralHealth,
   decrementMoralHealth,
+  incrementMoney,
+  resetMoney,
 } = gameSlice.actions;
 
 export const selectHealth = (state: RootState) => state.game.health;
 export const selectMoralHealth = (state: RootState) => state.game.moralHealth;
+export const selectMoney = (state: RootState) => state.game.money;
 
 export default gameSlice.reducer;
