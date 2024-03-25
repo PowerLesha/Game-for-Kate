@@ -1,7 +1,16 @@
 body {
+  margin: 0;
   max-width: 1550px;
   max-height: 1000px;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+.main {
+  background-image: url("./assets/background.png");
+
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 650px;
 }
 .app-container {
   display: flex;
@@ -61,6 +70,17 @@ body {
 .game-info {
   font-size: small;
   width: 200px;
+}
+.show-level {
+  margin-left: 600px;
+  margin-top: -5px;
+  position: absolute;
+}
+.aeroplane img {
+  width: 200px;
+  height: 100px;
+  margin-left: 900px;
+  position: absolute;
 }
 .game-info button {
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;

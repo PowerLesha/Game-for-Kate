@@ -11,13 +11,14 @@ import {
 import Enemy from "../Enemy";
 import Treats from "../Treats";
 import GameOver from "../GameOver/index";
-import { resetLevels } from "../../store/levelSlice";
-
+import { resetLevels, showLevel } from "../../store/levelSlice";
+import aeroplane from "../../assets/aeroplane.png";
 const Kate: React.FC = () => {
   const dispatch = useDispatch();
   const kateRef = useRef<HTMLDivElement>(null);
   const firstRender = useRef(true); // useRef to track first render
   const health = useSelector(selectHealth);
+  const currentLevel = useSelector(showLevel);
   const mentalHealth = useSelector(selectMoralHealth);
   const screenWidth = 1400;
   const screenHeight = 600;
@@ -105,7 +106,7 @@ const Kate: React.FC = () => {
       });
 
       const cappucchino = document.getElementById("cappucchino");
-      if (cappucchino && cakeVissible) {
+      if (cappucchino && cakeVissible && health < 100) {
         const cappucchinoRect = cappucchino.getBoundingClientRect();
         if (
           kateRect.top < cappucchinoRect.bottom &&
@@ -122,7 +123,7 @@ const Kate: React.FC = () => {
       }
 
       const marshall = document.getElementById("marshall");
-      if (marshall && marshallVisible) {
+      if (marshall && marshallVisible && mentalHealth < 100) {
         const marshallRect = marshall.getBoundingClientRect();
         if (
           kateRect.top < marshallRect.bottom &&
@@ -152,6 +153,8 @@ const Kate: React.FC = () => {
     marshallVisible,
     cakeVissible,
     gameOver,
+    health,
+    mentalHealth,
   ]);
   const restartGame = () => {
     setGameOver(false);
@@ -183,11 +186,12 @@ const Kate: React.FC = () => {
   };
 
   return (
-    <>
+    <div className="main">
       {gameOver ? (
         <GameOver restartGame={restartGame} />
       ) : (
         <>
+          <h1 className="show-level">LEVEL {currentLevel}</h1>
           <div id="kate" ref={kateRef} className="kate"></div>
           <Treats
             screenWidth={screenWidth}
@@ -196,9 +200,12 @@ const Kate: React.FC = () => {
             cakeVissible={cakeVissible}
           />
           {renderEnemies()}
+          <div className="aeroplane">
+            <img src={aeroplane} />
+          </div>
         </>
       )}
-    </>
+    </div>
   );
 };
 

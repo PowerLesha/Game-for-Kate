@@ -1,6 +1,6 @@
 // levelSlice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
+import { RootState } from "./index";
 interface LevelState {
   currentLevel: number;
   completedLevels: number[];
@@ -27,5 +27,7 @@ const levelSlice = createSlice({
 });
 
 export const { completeLevel, resetLevels } = levelSlice.actions;
+
+export const showLevel = (state: RootState) => state.level.currentLevel;
 
 export default levelSlice.reducer;
