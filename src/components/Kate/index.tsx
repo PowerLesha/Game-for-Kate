@@ -10,6 +10,8 @@ import {
 } from "../../store/gameSlice";
 import Enemy from "../Enemy";
 import Treats from "../Treats";
+import GameOver from "../GameOver/index";
+import { resetLevels } from "../../store/levelSlice";
 
 const Kate: React.FC = () => {
   const dispatch = useDispatch();
@@ -155,6 +157,7 @@ const Kate: React.FC = () => {
     setGameOver(false);
     dispatch(incrementHealth());
     dispatch(incrementMoralHealth());
+    dispatch(resetLevels());
     // Reset Kate's position to initial position
     setInitialKatePosition({ top: screenHeight - 300, left: 0 });
   };
@@ -182,24 +185,7 @@ const Kate: React.FC = () => {
   return (
     <>
       {gameOver ? (
-        <>
-          <div className="blood-container">
-            <div className="blood-text">
-              <span>G</span>
-              <span>a</span>
-              <span>m</span>
-              <span>e</span>
-              <span>&nbsp;</span>
-              <span>O</span>
-              <span>v</span>
-              <span>e</span>
-              <span>r</span>
-            </div>
-          </div>
-          <button className="restart-button" onClick={restartGame}>
-            Restart Game
-          </button>
-        </>
+        <GameOver restartGame={restartGame} />
       ) : (
         <>
           <div id="kate" ref={kateRef} className="kate"></div>
