@@ -16,7 +16,11 @@ import Treats from "../Treats";
 import Money from "../Money";
 import GameOver from "../GameOver/index";
 import { completeLevel, resetLevels, showLevel } from "../../store/levelSlice";
-import aeroplane from "../../assets/aeroplane.png";
+import mainSound from "../../assets/the-last-piano-112677.mp3";
+import planeSound1 from "../../assets/jet-engine-startup-14537.mp3";
+import planeSound2 from "../../assets/airplane-atmos-22955.mp3";
+import planeSound3 from "../../assets/pilot-announcement-85246.mp3";
+
 const Kate: React.FC = () => {
   const dispatch = useDispatch();
   const kateRef = useRef<HTMLDivElement>(null);
@@ -36,6 +40,15 @@ const Kate: React.FC = () => {
     top: screenHeight - 300,
     left: 0,
   });
+  const [playMainSound, setPlayMainSound] = useState(false);
+  const [playPlaneSound, setPlayPlaneSound] = useState(false);
+  // useEffect(() => {
+  //   setPlayMainSound(true);
+  //   if (playMainSound) {
+  //     const audio = new Audio(mainSound);
+  //     audio.play();
+  //   }
+  // }, [playMainSound]);
   useEffect(() => {
     if (health <= 0 || mentalHealth <= 0) {
       setGameOver(true);
@@ -178,7 +191,7 @@ const Kate: React.FC = () => {
           kateRect.right > aeroplaneRect.left
         ) {
           // Dispatch action to indicate transition to level 2
-          dispatch(completeLevel(2));
+          setPlayPlaneSound(true);
         }
       }
     };
@@ -201,6 +214,31 @@ const Kate: React.FC = () => {
     mentalHealth,
     moneyVissible,
   ]);
+  useEffect(() => {
+    const playSequentialSounds = () => {
+      const audio1 = new Audio(planeSound1);
+      audio1.play();
+      setTimeout(() => {
+        audio1.pause();
+        const audio2 = new Audio(planeSound2);
+        audio2.play();
+        setTimeout(() => {
+          audio2.pause();
+          const audio3 = new Audio(planeSound3);
+          audio3.play();
+          setTimeout(() => {
+            audio3.pause();
+            dispatch(completeLevel(2));
+          }, 6000);
+        }, 4000);
+      }, 3000);
+    };
+
+    if (playPlaneSound) {
+      playSequentialSounds();
+    }
+  }, [playPlaneSound]);
+
   const restartGame = () => {
     setGameOver(false);
     dispatch(incrementHealth());
@@ -210,6 +248,7 @@ const Kate: React.FC = () => {
     // Reset Kate's position to initial position
     setInitialKatePosition({ top: screenHeight - 300, left: 0 });
   };
+
   useEffect(() => {
     if (firstRender.current || !gameOver) {
       const kate = kateRef.current;
@@ -217,6 +256,7 @@ const Kate: React.FC = () => {
         kate.style.top = `${initialKatePosition.top}px`;
         kate.style.left = `${initialKatePosition.left}px`;
       }
+
       firstRender.current = false;
     }
   }, [initialKatePosition]);
@@ -233,6 +273,12 @@ const Kate: React.FC = () => {
 
   return (
     <div className="main">
+      {/* <iframe
+        src="audio/source.mp3"
+        allow="autoplay"
+        style={{ display: "none" }}
+        id="iframeAudio"
+      ></iframe> */}
       {gameOver ? (
         <GameOver restartGame={restartGame} />
       ) : (
