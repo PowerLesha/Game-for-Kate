@@ -42,16 +42,23 @@ const Kate: React.FC = () => {
   });
   const [playMainSound, setPlayMainSound] = useState(false);
   const [playPlaneSound, setPlayPlaneSound] = useState(false);
-  // useEffect(() => {
-  //   setPlayMainSound(true);
-  //   if (playMainSound) {
-  //     const audio = new Audio(mainSound);
-  //     audio.play();
-  //   }
-  // }, [playMainSound]);
+
+  useEffect(() => {
+    if (playMainSound) {
+      const mainAudio = new Audio(mainSound);
+      mainAudio.loop = true;
+      mainAudio.play();
+
+      return () => {
+        mainAudio.pause();
+        mainAudio.currentTime = 0;
+      };
+    }
+  }, [playMainSound]);
   useEffect(() => {
     if (health <= 0 || mentalHealth <= 0) {
       setGameOver(true);
+
       // Additional cleanup or game over logic can be added here
     }
   }, [health, mentalHealth]);
@@ -279,6 +286,9 @@ const Kate: React.FC = () => {
         style={{ display: "none" }}
         id="iframeAudio"
       ></iframe> */}
+      <button onClick={() => setPlayMainSound(!playMainSound)}>
+        {playMainSound ? "Pause Main Sound" : "Play Main Sound"}
+      </button>
       {gameOver ? (
         <GameOver restartGame={restartGame} />
       ) : (
