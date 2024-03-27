@@ -20,6 +20,7 @@ import mainSound from "../../assets/the-last-piano-112677.mp3";
 import planeSound1 from "../../assets/jet-engine-startup-14537.mp3";
 import planeSound2 from "../../assets/airplane-atmos-22955.mp3";
 import planeSound3 from "../../assets/pilot-announcement-85246.mp3";
+import { FaBeer, FaVolumeOff, FaVolumeUp } from "react-icons/fa";
 
 const Kate: React.FC = () => {
   const dispatch = useDispatch();
@@ -37,7 +38,7 @@ const Kate: React.FC = () => {
   const [moneyVissible, setMoneyVissible] = useState(true);
   const [gameOver, setGameOver] = useState(false);
   const [initialKatePosition, setInitialKatePosition] = useState({
-    top: screenHeight - 300,
+    top: screenHeight - 100,
     left: 0,
   });
   const [playMainSound, setPlayMainSound] = useState(false);
@@ -47,6 +48,11 @@ const Kate: React.FC = () => {
     if (playMainSound) {
       const mainAudio = new Audio(mainSound);
       mainAudio.loop = true;
+
+      // Set the minimum volume for the main sound when airplane sounds are playing
+      const minMainVolume = playPlaneSound ? 0.3 : 1.0;
+      mainAudio.volume = minMainVolume;
+
       mainAudio.play();
 
       return () => {
@@ -54,7 +60,8 @@ const Kate: React.FC = () => {
         mainAudio.currentTime = 0;
       };
     }
-  }, [playMainSound]);
+  }, [playMainSound, playPlaneSound]);
+
   useEffect(() => {
     if (health <= 0 || mentalHealth <= 0) {
       setGameOver(true);
@@ -65,6 +72,7 @@ const Kate: React.FC = () => {
 
   useEffect(() => {
     if (gameOver) {
+      setMoneyVissible(true);
       // Handle game over logic here, such as showing a game over message, resetting the game, etc.
     }
   }, [gameOver]);
@@ -79,7 +87,7 @@ const Kate: React.FC = () => {
       const { top, left, bottom, right } = kate.getBoundingClientRect();
 
       // Define the boundaries of the restricted area
-      const restrictedAreaTop = 250;
+      const restrictedAreaTop = 370;
       const restrictedAreaLeft = 230;
 
       // Check if Kate's current position is within or near the restricted area
@@ -189,6 +197,7 @@ const Kate: React.FC = () => {
       }
 
       const aeroplane = document.getElementById("plane");
+
       if (aeroplane) {
         const aeroplaneRect = aeroplane.getBoundingClientRect();
         if (
@@ -211,6 +220,7 @@ const Kate: React.FC = () => {
     };
   }, [
     dispatch,
+
     screenHeight,
     screenWidth,
     marshallVisible,
@@ -244,7 +254,7 @@ const Kate: React.FC = () => {
     if (playPlaneSound) {
       playSequentialSounds();
     }
-  }, [playPlaneSound]);
+  }, [playPlaneSound, kateMoney]);
 
   const restartGame = () => {
     setGameOver(false);
@@ -253,9 +263,9 @@ const Kate: React.FC = () => {
     dispatch(resetLevels());
     dispatch(resetMoney());
     // Reset Kate's position to initial position
-    setInitialKatePosition({ top: screenHeight - 300, left: 0 });
+    setInitialKatePosition({ top: screenHeight - 100, left: 0 });
   };
-
+  console.log(playPlaneSound);
   useEffect(() => {
     if (firstRender.current || !gameOver) {
       const kate = kateRef.current;
@@ -286,9 +296,29 @@ const Kate: React.FC = () => {
         style={{ display: "none" }}
         id="iframeAudio"
       ></iframe> */}
-      <button onClick={() => setPlayMainSound(!playMainSound)}>
-        {playMainSound ? "Pause Main Sound" : "Play Main Sound"}
-      </button>
+      <div className="game-effects">
+        <button onClick={() => setPlayMainSound(!playMainSound)}>
+          <span>{playMainSound ? "OFF" : "ON"}</span>
+          {playMainSound ? (
+            <FaVolumeOff
+              style={{
+                paddingTop: "4px",
+                display: "inline",
+                fontSize: "15px",
+              }}
+            />
+          ) : (
+            <FaVolumeUp
+              style={{
+                paddingTop: "4px",
+                display: "inline",
+                fontSize: "15px",
+              }}
+            />
+          )}
+        </button>
+      </div>
+
       {gameOver ? (
         <GameOver restartGame={restartGame} />
       ) : (
@@ -306,8 +336,12 @@ const Kate: React.FC = () => {
               />
               <Money moneyVissible={moneyVissible} />
               {renderEnemies()}
-
               <div className="aeroplane" id="plane"></div>
+              {/* <div
+                className="aeroplane"
+                id="plane"
+                style={{ display: kateMoney >= 1000 ? "flex" : "none" }}
+              ></div> */}
             </>
           )}
         </div>

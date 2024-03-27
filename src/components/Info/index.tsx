@@ -7,6 +7,8 @@ import {
   FaInfoCircle,
   FaTimesCircle,
 } from "react-icons/fa"; // Import icons from react-icons library
+import { useSelector } from "react-redux";
+import { showLevel } from "../../store/levelSlice";
 
 const Info: React.FC = () => {
   const [showModal, setShowModal] = useState(false); // State to manage visibility of modal
@@ -15,10 +17,20 @@ const Info: React.FC = () => {
   const toggleModal = () => {
     setShowModal(!showModal);
   };
+  const level = useSelector(showLevel);
 
   return (
     <div className="game-info">
       <h2>Game Information:</h2>
+      <h2 className="game-task">
+        Your current goal is:
+        <br />
+        {level === 1 && (
+          <h3 style={{ textDecoration: "underline pink" }}>
+            earn 1000$ and go on vacation by plane
+          </h3>
+        )}
+      </h2>
       <h3>Use arrows to move Kate</h3>
       <div className="arrow-icons">
         <span>

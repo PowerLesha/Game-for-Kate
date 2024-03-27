@@ -15,7 +15,7 @@ const ScoreComponent: React.FC = () => {
     <div className="score">
       <h2>Health: {health}</h2>
       <h2>Mental Health: {moralHealth}</h2>
-      <h2>Money: {money}</h2>
+      <h2>Money: {money} $</h2>
     </div>
   );
 };
