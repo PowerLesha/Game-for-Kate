@@ -176,8 +176,8 @@ const Kate: React.FC = () => {
       const money = document.getElementById("money");
       if (kateMoney && kateMoney >= 1000) {
         setMoneyVissible(false);
-        return;
       }
+
       if (money && moneyVissible && kateMoney < 1000) {
         const moneyRect = money.getBoundingClientRect();
         if (
@@ -198,7 +198,7 @@ const Kate: React.FC = () => {
 
       const aeroplane = document.getElementById("plane");
 
-      if (kateMoney >= 1000 && aeroplane) {
+      if (aeroplane) {
         const aeroplaneRect = aeroplane.getBoundingClientRect();
         if (
           kateRect.top < aeroplaneRect.bottom &&
@@ -211,7 +211,6 @@ const Kate: React.FC = () => {
         }
       }
     };
-
     window.addEventListener("keydown", handleKeyDown);
 
     // Cleanup event listener
@@ -220,13 +219,12 @@ const Kate: React.FC = () => {
     };
   }, [
     dispatch,
-    kateMoney,
     screenHeight,
     screenWidth,
     marshallVisible,
     cakeVissible,
     gameOver,
-
+    kateMoney,
     health,
     mentalHealth,
     moneyVissible,
@@ -254,7 +252,7 @@ const Kate: React.FC = () => {
     if (playPlaneSound) {
       playSequentialSounds();
     }
-  }, [playPlaneSound, kateMoney]);
+  }, [playPlaneSound, kateMoney, dispatch]);
 
   const restartGame = () => {
     setGameOver(false);
@@ -265,7 +263,6 @@ const Kate: React.FC = () => {
     // Reset Kate's position to initial position
     setInitialKatePosition({ top: screenHeight - 100, left: 0 });
   };
-  console.log(playPlaneSound);
 
   useEffect(() => {
     if (firstRender.current || !gameOver) {
@@ -277,7 +274,7 @@ const Kate: React.FC = () => {
 
       firstRender.current = false;
     }
-  }, [initialKatePosition]);
+  }, [gameOver, initialKatePosition]);
 
   const renderEnemies = () => {
     const enemies = [];
@@ -337,15 +334,15 @@ const Kate: React.FC = () => {
               />
               <Money moneyVissible={moneyVissible} />
               {renderEnemies()}
-              <div className="aeroplane" id="plane"></div>
+              {/* <div className="aeroplane" id="plane"></div> */}
+              {kateMoney >= 1000 && (
+                <div className="aeroplane" id="plane"></div>
+              )}
               {/* <div
                 className="aeroplane"
                 id="plane"
                 style={{ display: kateMoney >= 1000 ? "flex" : "none" }}
               ></div> */}
-              {/* {kateMoney >= 1000 && (
-                <div className="aeroplane" id="plane"></div>
-              )} */}
             </>
           )}
         </div>
