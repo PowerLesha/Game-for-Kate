@@ -20,7 +20,7 @@ import mainSound from "../../assets/the-last-piano-112677.mp3";
 import planeSound1 from "../../assets/jet-engine-startup-14537.mp3";
 import planeSound2 from "../../assets/airplane-atmos-22955.mp3";
 import planeSound3 from "../../assets/pilot-announcement-85246.mp3";
-import { FaBeer, FaVolumeOff, FaVolumeUp } from "react-icons/fa";
+import { FaVolumeOff, FaVolumeUp } from "react-icons/fa";
 
 const Kate: React.FC = () => {
   const dispatch = useDispatch();
@@ -198,7 +198,7 @@ const Kate: React.FC = () => {
 
       const aeroplane = document.getElementById("plane");
 
-      if (aeroplane) {
+      if (kateMoney >= 1000 && aeroplane) {
         const aeroplaneRect = aeroplane.getBoundingClientRect();
         if (
           kateRect.top < aeroplaneRect.bottom &&
@@ -220,13 +220,13 @@ const Kate: React.FC = () => {
     };
   }, [
     dispatch,
-
+    kateMoney,
     screenHeight,
     screenWidth,
     marshallVisible,
     cakeVissible,
     gameOver,
-    kateMoney,
+
     health,
     mentalHealth,
     moneyVissible,
@@ -266,6 +266,7 @@ const Kate: React.FC = () => {
     setInitialKatePosition({ top: screenHeight - 100, left: 0 });
   };
   console.log(playPlaneSound);
+
   useEffect(() => {
     if (firstRender.current || !gameOver) {
       const kate = kateRef.current;
@@ -342,6 +343,9 @@ const Kate: React.FC = () => {
                 id="plane"
                 style={{ display: kateMoney >= 1000 ? "flex" : "none" }}
               ></div> */}
+              {/* {kateMoney >= 1000 && (
+                <div className="aeroplane" id="plane"></div>
+              )} */}
             </>
           )}
         </div>

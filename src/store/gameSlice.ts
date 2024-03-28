@@ -10,7 +10,7 @@ interface GameState {
 const initialState: GameState = {
   moralHealth: 100,
   health: 100,
-  money: 0,
+  money: 12,
 };
 
 const gameSlice = createSlice({
