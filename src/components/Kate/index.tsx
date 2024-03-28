@@ -21,6 +21,8 @@ import planeSound1 from "../../assets/jet-engine-startup-14537.mp3";
 import planeSound2 from "../../assets/airplane-atmos-22955.mp3";
 import planeSound3 from "../../assets/pilot-announcement-85246.mp3";
 import { FaVolumeOff, FaVolumeUp } from "react-icons/fa";
+import backgroundLevel1 from "../../assets/background.png";
+import backgroundLevel2 from "../../assets/background2.png";
 
 const Kate: React.FC = () => {
   const dispatch = useDispatch();
@@ -287,7 +289,14 @@ const Kate: React.FC = () => {
   };
 
   return (
-    <div className="main">
+    <div
+      className="main"
+      style={{
+        backgroundImage: `url(${
+          currentLevel === 1 ? backgroundLevel1 : backgroundLevel2
+        })`,
+      }}
+    >
       {/* <iframe
         src="audio/source.mp3"
         allow="autoplay"
@@ -322,10 +331,9 @@ const Kate: React.FC = () => {
       ) : (
         <div>
           <h1 className="show-level">LEVEL {currentLevel}</h1>
-
+          <div id="kate" ref={kateRef} className="kate"></div>
           {currentLevel === 1 && (
             <>
-              <div id="kate" ref={kateRef} className="kate"></div>
               <Treats
                 screenWidth={screenWidth}
                 screenHeight={screenHeight}
@@ -334,15 +342,21 @@ const Kate: React.FC = () => {
               />
               <Money moneyVissible={moneyVissible} />
               {renderEnemies()}
-              {/* <div className="aeroplane" id="plane"></div> */}
+
               {kateMoney >= 1000 && (
                 <div className="aeroplane" id="plane"></div>
               )}
-              {/* <div
-                className="aeroplane"
-                id="plane"
-                style={{ display: kateMoney >= 1000 ? "flex" : "none" }}
-              ></div> */}
+            </>
+          )}
+
+          {currentLevel === 2 && (
+            <>
+              <Treats
+                screenWidth={screenWidth}
+                screenHeight={screenHeight}
+                marshallVissible={marshallVisible}
+                cakeVissible={cakeVissible}
+              />
             </>
           )}
         </div>
