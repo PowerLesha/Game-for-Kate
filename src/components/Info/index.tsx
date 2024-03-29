@@ -5,7 +5,9 @@ import {
   FaArrowRight,
   FaArrowUp,
   FaInfoCircle,
+  FaSmileBeam,
   FaTimesCircle,
+  FaUmbrellaBeach,
 } from "react-icons/fa"; // Import icons from react-icons library
 import { useSelector } from "react-redux";
 import { showLevel } from "../../store/levelSlice";
@@ -27,7 +29,12 @@ const Info: React.FC = () => {
         <br />
         {level === 1 && (
           <h3 style={{ textDecoration: "underline pink" }}>
-            earn 1000$ and go on vacation by plane
+            earn 1000$ and go on vacation by plane <FaUmbrellaBeach />
+          </h3>
+        )}
+        {level === 2 && (
+          <h3 style={{ textDecoration: "underline pink" }}>
+            spend all your money <FaSmileBeam />
           </h3>
         )}
       </h2>

@@ -32,6 +32,9 @@ const gameSlice = createSlice({
     incrementMoney(state) {
       state.money += 200;
     },
+    decrementMoney(state) {
+      state.money -= 20;
+    },
     resetMoney(state) {
       state.money = 0;
     },
@@ -44,6 +47,7 @@ export const {
   incrementMoralHealth,
   decrementMoralHealth,
   incrementMoney,
+  decrementMoney,
   resetMoney,
 } = gameSlice.actions;
 

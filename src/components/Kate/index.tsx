@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   decrementHealth,
+  decrementMoney,
   decrementMoralHealth,
   incrementHealth,
   incrementMoney,
@@ -14,6 +15,7 @@ import {
 import Enemy from "../Enemy";
 import Treats from "../Treats";
 import Money from "../Money";
+import Spends from "../Spends";
 import GameOver from "../GameOver/index";
 import { completeLevel, resetLevels, showLevel } from "../../store/levelSlice";
 import mainSound from "../../assets/the-last-piano-112677.mp3";
@@ -141,6 +143,24 @@ const Kate: React.FC = () => {
         }
       });
 
+      const spends = document.querySelectorAll(".spends1, .spends2");
+      spends.forEach((spend) => {
+        const spendRect = spend.getBoundingClientRect();
+
+        if (
+          kateRect.top < spendRect.bottom &&
+          kateRect.bottom > spendRect.top &&
+          kateRect.left < spendRect.right &&
+          kateRect.right > spendRect.left
+        ) {
+          if (spend.classList.contains("spends1")) {
+            dispatch(decrementMoney());
+          } else if (spend.classList.contains("spends2")) {
+            dispatch(decrementMoney());
+          }
+        }
+      });
+
       const cappucchino = document.getElementById("cappucchino");
       if (cappucchino && cakeVissible && health < 100) {
         const cappucchinoRect = cappucchino.getBoundingClientRect();
@@ -200,7 +220,7 @@ const Kate: React.FC = () => {
 
       const aeroplane = document.getElementById("plane");
 
-      if (aeroplane) {
+      if (aeroplane && currentLevel === 1) {
         const aeroplaneRect = aeroplane.getBoundingClientRect();
         if (
           kateRect.top < aeroplaneRect.bottom &&
@@ -224,6 +244,7 @@ const Kate: React.FC = () => {
     screenHeight,
     screenWidth,
     marshallVisible,
+    currentLevel,
     cakeVissible,
     gameOver,
     kateMoney,
@@ -251,10 +272,10 @@ const Kate: React.FC = () => {
       }, 3000);
     };
 
-    if (playPlaneSound) {
+    if (playPlaneSound && currentLevel === 1) {
       playSequentialSounds();
     }
-  }, [playPlaneSound, kateMoney, dispatch]);
+  }, [playPlaneSound, kateMoney, currentLevel]);
 
   const restartGame = () => {
     setGameOver(false);
@@ -357,6 +378,7 @@ const Kate: React.FC = () => {
                 marshallVissible={marshallVisible}
                 cakeVissible={cakeVissible}
               />
+              <Spends />
             </>
           )}
         </div>
