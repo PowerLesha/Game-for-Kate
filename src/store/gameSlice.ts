@@ -33,7 +33,7 @@ const gameSlice = createSlice({
       state.money += 200;
     },
     decrementMoney(state) {
-      state.money -= 20;
+      state.money -= 100;
     },
     resetMoney(state) {
       state.money = 0;

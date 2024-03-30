@@ -47,6 +47,8 @@ const Kate: React.FC = () => {
   });
   const [playMainSound, setPlayMainSound] = useState(false);
   const [playPlaneSound, setPlayPlaneSound] = useState(false);
+  const [ringCatched, setRingCatched] = useState(false);
+  const [tiffanyCatched, setTiffanyCatched] = useState(false);
 
   useEffect(() => {
     if (playMainSound) {
@@ -155,8 +157,16 @@ const Kate: React.FC = () => {
         ) {
           if (spend.classList.contains("spends1")) {
             dispatch(decrementMoney());
+            setRingCatched(true);
+            setTimeout(() => {
+              setRingCatched(false);
+            }, 1500);
           } else if (spend.classList.contains("spends2")) {
             dispatch(decrementMoney());
+            setTiffanyCatched(true);
+            setTimeout(() => {
+              setTiffanyCatched(false);
+            }, 1500);
           }
         }
       });
@@ -251,6 +261,8 @@ const Kate: React.FC = () => {
     health,
     mentalHealth,
     moneyVissible,
+    ringCatched,
+    tiffanyCatched,
   ]);
   useEffect(() => {
     const playSequentialSounds = () => {
@@ -318,12 +330,6 @@ const Kate: React.FC = () => {
         })`,
       }}
     >
-      {/* <iframe
-        src="audio/source.mp3"
-        allow="autoplay"
-        style={{ display: "none" }}
-        id="iframeAudio"
-      ></iframe> */}
       <div className="game-effects">
         <button onClick={() => setPlayMainSound(!playMainSound)}>
           <span>{playMainSound ? "OFF" : "ON"}</span>
@@ -378,7 +384,10 @@ const Kate: React.FC = () => {
                 marshallVissible={marshallVisible}
                 cakeVissible={cakeVissible}
               />
-              <Spends />
+              <Spends
+                ringCatched={ringCatched}
+                tiffanyCatched={tiffanyCatched}
+              />
             </>
           )}
         </div>
