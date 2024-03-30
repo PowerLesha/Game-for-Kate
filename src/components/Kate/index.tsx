@@ -17,6 +17,7 @@ import Treats from "../Treats";
 import Money from "../Money";
 import Spends from "../Spends";
 import GameOver from "../GameOver/index";
+import English from "../English";
 import { completeLevel, resetLevels, showLevel } from "../../store/levelSlice";
 import mainSound from "../../assets/the-last-piano-112677.mp3";
 import planeSound1 from "../../assets/jet-engine-startup-14537.mp3";
@@ -390,6 +391,7 @@ const Kate: React.FC = () => {
               />
             </>
           )}
+          {currentLevel === 3 && <English />}
         </div>
       )}
     </div>

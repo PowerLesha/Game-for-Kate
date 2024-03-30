@@ -4,8 +4,14 @@ import {
   FaArrowLeft,
   FaArrowRight,
   FaArrowUp,
+  FaBarcode,
+  FaBook,
+  FaBrain,
   FaInfoCircle,
   FaSmileBeam,
+  FaSmileWink,
+  FaStackOverflow,
+  FaStudiovinari,
   FaTimesCircle,
   FaUmbrellaBeach,
 } from "react-icons/fa"; // Import icons from react-icons library
@@ -35,6 +41,14 @@ const Info: React.FC = () => {
         {level === 2 && (
           <h3 style={{ textDecoration: "underline pink" }}>
             spend all your money <FaSmileBeam />
+          </h3>
+        )}
+        {level === 3 && (
+          <h3 style={{ textDecoration: "underline pink", marginTop: "-1px" }}>
+            SURVIAL (hahaha) <FaSmileWink />
+            <br />
+            You have to catch correct words and skip incorrect!{" "}
+            <FaBook style={{ color: "black" }} />
           </h3>
         )}
       </h2>
