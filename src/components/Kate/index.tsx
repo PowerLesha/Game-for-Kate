@@ -2,21 +2,26 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   decrementHealth,
+  decrementHealthWithEnglish,
   decrementMoney,
   decrementMoralHealth,
+  decrementPoints,
   incrementHealth,
+  incrementHealthWithEnglish,
   incrementMoney,
   incrementMoralHealth,
   resetMoney,
   selectHealth,
   selectMoney,
   selectMoralHealth,
+  selectWords,
 } from "../../store/gameSlice";
 import Enemy from "../Enemy";
 import Treats from "../Treats";
 import Money from "../Money";
 import Spends from "../Spends";
 import GameOver from "../GameOver/index";
+import GameCredits from "../GameCredits";
 import English from "../English";
 import { completeLevel, resetLevels, showLevel } from "../../store/levelSlice";
 import mainSound from "../../assets/the-last-piano-112677.mp3";
@@ -32,6 +37,7 @@ const Kate: React.FC = () => {
   const kateRef = useRef<HTMLDivElement>(null);
   const firstRender = useRef(true); // useRef to track first render
   const health = useSelector(selectHealth);
+  const words = useSelector(selectWords);
   const currentLevel = useSelector(showLevel);
   const mentalHealth = useSelector(selectMoralHealth);
   const kateMoney = useSelector(selectMoney);
@@ -83,7 +89,24 @@ const Kate: React.FC = () => {
       // Handle game over logic here, such as showing a game over message, resetting the game, etc.
     }
   }, [gameOver]);
+  const handleWordCollision = (wordId: string) => {
+    const isCorrect = wordId.startsWith("correct");
 
+    if (isCorrect) {
+      dispatch(decrementPoints());
+      if (health < 100) {
+        dispatch(incrementHealthWithEnglish());
+      }
+    } else if (!isCorrect) {
+      dispatch(decrementHealthWithEnglish());
+    }
+
+    // Hide the word by setting its display to none
+    const collidedWord = document.getElementById(wordId);
+    if (collidedWord) {
+      collidedWord.style.display = "none";
+    }
+  };
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (gameOver) return; // Prevent any actions when the game is over
@@ -244,6 +267,7 @@ const Kate: React.FC = () => {
         }
       }
     };
+
     window.addEventListener("keydown", handleKeyDown);
 
     // Cleanup event listener
@@ -359,6 +383,17 @@ const Kate: React.FC = () => {
       ) : (
         <div>
           <h1 className="show-level">LEVEL {currentLevel}</h1>
+          {currentLevel === 3 && (
+            <h2 className="words-left">
+              {words > 1 && `${words}` + " words  left"}
+              {words === 1 && `${words}` + " word  left"}{" "}
+              {words === 0 && "Congratulation!"}
+            </h2>
+          )}
+          <div className="game-credits">
+            {currentLevel === 3 && words === 0 && <GameCredits />}
+          </div>
+
           <div id="kate" ref={kateRef} className="kate"></div>
           {currentLevel === 1 && (
             <>
@@ -391,7 +426,9 @@ const Kate: React.FC = () => {
               />
             </>
           )}
-          {currentLevel === 3 && <English />}
+          {currentLevel === 3 && words > 1 && (
+            <English handleCollision={handleWordCollision} />
+          )}
         </div>
       )}
     </div>
