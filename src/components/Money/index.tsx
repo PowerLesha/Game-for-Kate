@@ -8,12 +8,15 @@ type Props = {
 };
 
 function index({ moneyVissible }: Props) {
-  const [position, setPosition] = useState({ top1: 200, left1: 400 });
+  const [position, setPosition] = useState({
+    top1: Math.random() * 600,
+    left1: Math.random() * 600,
+  });
   const kateMoney = useSelector(selectMoney);
   let screenWidth = 800;
   let screenHeight = 600;
   useEffect(() => {
-    if (!moneyVissible || kateMoney >= 1000) return;
+    if (kateMoney >= 1000) return;
 
     const interval = setInterval(() => {
       const newLeft1 = Math.random() * (screenWidth + 150);
