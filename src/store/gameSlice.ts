@@ -47,7 +47,7 @@ const gameSlice = createSlice({
       state.money = 0;
     },
     resetWords(state) {
-      state.words = 100;
+      state.words = 0;
     },
     decrementPoints(state) {
       state.words -= 1;
