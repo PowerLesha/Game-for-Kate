@@ -29,7 +29,7 @@ const gameSlice = createSlice({
       state.health += 20;
     },
     decrementHealthWithEnglish(state) {
-      state.health -= 60;
+      state.health -= 20;
     },
     incrementMoralHealth(state) {
       state.moralHealth = 100;
