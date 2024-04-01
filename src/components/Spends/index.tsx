@@ -18,9 +18,9 @@ const Spends: React.FC<{ ringCatched: boolean; tiffanyCatched: boolean }> = ({
       dispatch(completeLevel());
     }
     const interval = setInterval(() => {
-      const top1 = Math.floor(Math.random() * 600);
+      const top1 = Math.floor(Math.random() * 550);
       const left1 = Math.floor(Math.random() * 1000);
-      const top2 = Math.floor(Math.random() * 600);
+      const top2 = Math.floor(Math.random() * 550);
       const left2 = Math.floor(Math.random() * 1000);
 
       setPosition({ top1, left1 });

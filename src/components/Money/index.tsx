@@ -10,7 +10,7 @@ type Props = {
 function index({ moneyVissible }: Props) {
   const [position, setPosition] = useState({ top1: 200, left1: 400 });
   const kateMoney = useSelector(selectMoney);
-  let screenWidth = 900;
+  let screenWidth = 800;
   let screenHeight = 600;
   useEffect(() => {
     if (!moneyVissible || kateMoney >= 1000) return;
