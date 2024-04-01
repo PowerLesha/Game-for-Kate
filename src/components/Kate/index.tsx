@@ -304,6 +304,7 @@ const Kate: React.FC = () => {
           setTimeout(() => {
             audio3.pause();
             dispatch(completeLevel());
+            setPlayPlaneSound(false);
           }, 6000);
         }, 4000);
       }, 3000);
