@@ -143,7 +143,7 @@ const English: React.FC<EnglishProps> = ({ handleCollision }) => {
           className="word correct-word"
           style={{ left: word.left, top: 300 }}
         >
-          {word.word} (Correct)
+          {word.word}
         </div>
       ))}
       {incorrectWords.map((word) => (
@@ -153,7 +153,7 @@ const English: React.FC<EnglishProps> = ({ handleCollision }) => {
           className="word incorrect-word"
           style={{ left: word.left, top: 300 }}
         >
-          {word.word} (Incorrect)
+          {word.word}
         </div>
       ))}
     </>

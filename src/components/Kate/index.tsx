@@ -426,7 +426,7 @@ const Kate: React.FC = () => {
               />
             </>
           )}
-          {currentLevel === 3 && words > 1 && (
+          {currentLevel === 3 && words >= 1 && (
             <English handleCollision={handleWordCollision} />
           )}
         </div>
