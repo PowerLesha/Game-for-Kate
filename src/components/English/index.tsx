@@ -123,7 +123,6 @@ const English: React.FC<EnglishProps> = ({ handleCollision }) => {
           kateRect.left < wordRect.right &&
           kateRect.right > wordRect.left
         ) {
-          const isCorrect = word.classList.contains("correct-word");
           handleCollision(wordId); // Call handleCollision with the word id
         }
       });

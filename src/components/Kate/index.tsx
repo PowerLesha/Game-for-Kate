@@ -114,7 +114,7 @@ const Kate: React.FC = () => {
       const kate = kateRef.current;
       if (!kate) return;
 
-      const { top, left, bottom, right } = kate.getBoundingClientRect();
+      const { top, left } = kate.getBoundingClientRect();
 
       // Define the boundaries of the restricted area
       const restrictedAreaTop = 370;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import money from "../../assets/money.png";
 import { useSelector } from "react-redux";
 import { selectMoney } from "../../store/gameSlice";

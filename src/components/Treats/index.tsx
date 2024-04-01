@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+
 import marshallImage from "../../assets/Marshall.png";
 import cappucchino from "../../assets/cappucchino.png";
 
@@ -9,7 +9,6 @@ const Marshall: React.FC<{
   marshallVissible: boolean;
   cakeVissible: boolean;
 }> = ({ screenWidth, screenHeight, marshallVissible, cakeVissible }) => {
-  const dispatch = useDispatch();
   const [position, setPosition] = useState({ top1: 200, left1: 400 });
   const [position2, setPosition2] = useState({ top2: 300, left2: 850 });
 
