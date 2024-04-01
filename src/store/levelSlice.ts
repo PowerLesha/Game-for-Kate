@@ -15,7 +15,7 @@ const levelSlice = createSlice({
   name: "level",
   initialState,
   reducers: {
-    completeLevel(state, action: PayloadAction<number>) {
+    completeLevel(state) {
       state.completedLevels.push(state.currentLevel);
       state.currentLevel++;
     },

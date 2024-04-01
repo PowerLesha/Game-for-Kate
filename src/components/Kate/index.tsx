@@ -303,7 +303,7 @@ const Kate: React.FC = () => {
           audio3.play();
           setTimeout(() => {
             audio3.pause();
-            dispatch(completeLevel(2));
+            dispatch(completeLevel());
           }, 6000);
         }, 4000);
       }, 3000);
