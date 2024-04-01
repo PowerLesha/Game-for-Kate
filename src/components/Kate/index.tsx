@@ -11,6 +11,7 @@ import {
   incrementMoney,
   incrementMoralHealth,
   resetMoney,
+  resetWords,
   selectHealth,
   selectMoney,
   selectMoralHealth,
@@ -78,7 +79,7 @@ const Kate: React.FC = () => {
   useEffect(() => {
     if (health <= 0 || mentalHealth <= 0) {
       setGameOver(true);
-
+      dispatch(resetWords());
       // Additional cleanup or game over logic can be added here
     }
   }, [health, mentalHealth]);

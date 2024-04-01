@@ -29,7 +29,7 @@ const gameSlice = createSlice({
       state.health += 20;
     },
     decrementHealthWithEnglish(state) {
-      state.health -= 20;
+      state.health -= 60;
     },
     incrementMoralHealth(state) {
       state.moralHealth = 100;
@@ -45,6 +45,9 @@ const gameSlice = createSlice({
     },
     resetMoney(state) {
       state.money = 0;
+    },
+    resetWords(state) {
+      state.words = 100;
     },
     decrementPoints(state) {
       state.words -= 1;
@@ -63,6 +66,7 @@ export const {
   incrementMoney,
   decrementMoney,
   resetMoney,
+  resetWords,
 } = gameSlice.actions;
 export const selectWords = (state: RootState) => state.game.words;
 export const selectHealth = (state: RootState) => state.game.health;
