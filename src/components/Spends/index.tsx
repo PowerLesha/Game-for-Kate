@@ -15,7 +15,7 @@ const Spends: React.FC<{ ringCatched: boolean; tiffanyCatched: boolean }> = ({
   useEffect(() => {
     if (ringCatched && tiffanyCatched) return;
     if (money <= 0) {
-      dispatch(completeLevel(3));
+      dispatch(completeLevel());
     }
     const interval = setInterval(() => {
       const top1 = Math.floor(Math.random() * 600);
